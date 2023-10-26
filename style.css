@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
 .content-container {
@@ -25,6 +26,15 @@
     padding: 15px;
     border-radius: 10px;
     background-color: hsl(0, 1%, 47%);
+}
+
+.calculation-display {
+    font-size: 25px;
+}
+
+.result-display {
+    font-size: 40px;
+    font-weight: 800;
 }
 
 .btns-container,
@@ -65,13 +75,13 @@ button {
     height: 60px;
     border: none;
     border-radius: 15px;
+    font-size: 30px;
     background-color: hsl(0, 1%, 47%);
     color: #FFFFFF;
 }
 
 button:hover {
     background-color: hsl(0, 1%, 60%);
-    color: #FFFFFF;
 }
 
 button:active {
