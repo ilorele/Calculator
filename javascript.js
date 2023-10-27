@@ -1,11 +1,17 @@
 let firstNum;
 let secondNum;
 let operator;
+let result;
 
 const numBtnsEl = document.querySelectorAll(".num-btn");
 const operatorBtnsEl = document.querySelectorAll(".operator-btn");
 const resultBtnEl = document.querySelector(".result-btn");
 
+const acBtnEl = document.querySelector(".Ac-btn");
+const cBtnEl = document.querySelector(".C-btn");
+
+const calculatioDisplayEl = document.querySelector(".calculation-display");
+const resultDisplayEl = document.querySelector(".result-display");
 
 // SOL 1:
 
@@ -74,15 +80,24 @@ function divide(num1, num2) {
 numBtnsEl.forEach((btn) => btn.addEventListener("click", function() {
     if (operator === undefined) {
         firstNum = +btn.textContent;
+        calculatioDisplayEl.textContent += firstNum;
         console.log("first number: " + firstNum);
     } else {
         secondNum = +btn.textContent;
+        calculatioDisplayEl.textContent += secondNum;
         console.log("second number: " + secondNum);
+
+        result = calculate();
+        firstNum = result;
+        // resultDisplayEl.textContent = "=" + result;
+        secondNum = undefined;
+        operator = undefined;
     }
 }));
 
 operatorBtnsEl.forEach((element) => element.addEventListener("click", function() {
     operator = element.textContent;
+    calculatioDisplayEl.textContent += operator;
     console.log("operator: " + operator);
 
 }));
@@ -105,11 +120,20 @@ function calculate() {
 }
 
 resultBtnEl.addEventListener("click", function() {
-    let result = calculate();
+    resultDisplayEl.textContent = "=" + result;
 
+    console.log("result: ", result);
+});
+
+acBtnEl.addEventListener("click", function() {
     firstNum = undefined;
     secondNum = undefined;
     operator = undefined;
 
-    console.log("result: ", result);
+    calculatioDisplayEl.textContent = "";
+    resultDisplayEl.textContent = "";
 });
+
+cBtnEl.addEventListener("click", function() {
+    
+})
