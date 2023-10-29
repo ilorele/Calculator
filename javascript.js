@@ -60,47 +60,20 @@ const resultDisplayEl = document.querySelector(".result-display");
 // SOL 2: 
 
 function add(num1, num2) {
-    return num1 + num2;
+    return (+num1 + +num2);
 }
 
 function substract(num1, num2) {
-    return num1 - num2;
+    return (num1 - num2);
 }
 
 function multiply(num1, num2) {
-    return num1 * num2;
+    return (num1 * num2);
 }
 
 function divide(num1, num2) {
-    return num1 / num2;
+    return (num1 / num2);
 }
-
-
-
-numBtnsEl.forEach((btn) => btn.addEventListener("click", function() {
-    if (operator === undefined) {
-        firstNum = +btn.textContent;
-        calculatioDisplayEl.textContent += firstNum;
-        console.log("first number: " + firstNum);
-    } else {
-        secondNum = +btn.textContent;
-        calculatioDisplayEl.textContent += secondNum;
-        console.log("second number: " + secondNum);
-
-        result = calculate();
-        firstNum = result;
-        // resultDisplayEl.textContent = "=" + result;
-        secondNum = undefined;
-        operator = undefined;
-    }
-}));
-
-operatorBtnsEl.forEach((element) => element.addEventListener("click", function() {
-    operator = element.textContent;
-    calculatioDisplayEl.textContent += operator;
-    console.log("operator: " + operator);
-
-}));
 
 function calculate() {
     switch (operator) {
@@ -119,10 +92,68 @@ function calculate() {
     }
 }
 
-resultBtnEl.addEventListener("click", function() {
-    resultDisplayEl.textContent = "=" + result;
 
-    console.log("result: ", result);
+
+numBtnsEl.forEach((btn) => btn.addEventListener("click", function() {
+    if (operator === undefined) {
+        if (firstNum === undefined) {
+            firstNum = btn.textContent;
+        } else {
+            firstNum += btn.textContent;
+        }
+        
+        console.log("first number: " + firstNum);
+        calculatioDisplayEl.textContent += btn.textContent;
+    } else {
+        if (secondNum === undefined) {
+            secondNum = btn.textContent;
+        } else {
+            secondNum += btn.textContent;
+        }
+
+        console.log("second number: " + secondNum);
+        calculatioDisplayEl.textContent += btn.textContent;
+
+        // secondNum = +btn.textContent;
+        // calculatioDisplayEl.textContent += secondNum;
+        // console.log("second number: " + secondNum);
+
+        // result = calculate();
+        // firstNum = result;
+        // secondNum = undefined;
+        // operator = undefined;
+    }
+}));
+
+operatorBtnsEl.forEach((element) => element.addEventListener("click", function() {
+    // operator = element.textContent;
+    // calculatioDisplayEl.textContent += operator;
+    // console.log("operator: " + operator);
+
+    if (operator) {
+        result = calculate();
+        firstNum = result;
+        secondNum = undefined;
+        operator = element.textContent;
+        calculatioDisplayEl.textContent += operator;
+    } else {
+        operator = element.textContent;
+        calculatioDisplayEl.textContent += operator;
+        console.log("operator: " + operator);
+    }
+}));
+
+resultBtnEl.addEventListener("click", function() {
+    if (operator === "/" && secondNum === "0") {
+        alert("You can't divide by zero, dumbo");
+        num2 = undefined;
+        calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -1);
+    } else {
+        result = +calculate().toFixed(2);
+        calculatioDisplayEl.textContent = result;
+        resultDisplayEl.textContent = "=" + result;
+        console.log("result: ", result);
+    }
 });
 
 acBtnEl.addEventListener("click", function() {
@@ -135,5 +166,4 @@ acBtnEl.addEventListener("click", function() {
 });
 
 cBtnEl.addEventListener("click", function() {
-    
 })
