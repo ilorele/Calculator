@@ -78,18 +78,27 @@ numBtnsEl.forEach((btn) => btn.addEventListener("click", function() {
 }))
 
 dotBtnEl.addEventListener("click", function() {
-    assignNum(this);
+    if ((!secondNum && firstNum.includes(".")) || (firstNum && operator && secondNum.includes("."))) {
+        alert("You can't put more than one decimal per number!");
+    } else {
+        assignNum(this);
+    }
 })
 
 operatorBtnsEl.forEach((element) => element.addEventListener("click", function() {
-    if (operator) {
+    if (operator && !secondNum) {
+        operator = this.textContent;
+        calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -1);
+        calculatioDisplayEl.textContent += operator;
+        console.log("operator: " + operator);
+    } else if (operator) {
         result = calculate();
         firstNum = result;
         secondNum = undefined;
-        operator = element.textContent;
+        operator = this.textContent;
         calculatioDisplayEl.textContent = result + operator;
     } else {
-        operator = element.textContent;
+        operator = this.textContent;
         calculatioDisplayEl.textContent += operator;
         console.log("operator: " + operator);
     }

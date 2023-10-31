@@ -39,6 +39,14 @@
     font-weight: 800;
 }
 
+.display-container,
+.calculation-display,
+.result-display {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .btns-container,
 .left-btns-container,
 .letf-top-btns-container,
