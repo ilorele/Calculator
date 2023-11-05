@@ -3,6 +3,9 @@ let secondNum;
 let operator;
 let result;
 
+const numbersArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const operatorsArr = ["+", "-", "*", "/"];
+
 const numBtnsEl = document.querySelectorAll(".num-btn");
 const operatorBtnsEl = document.querySelectorAll(".operator-btn");
 const resultBtnEl = document.querySelector(".result-btn");
@@ -16,25 +19,55 @@ const resultDisplayEl = document.querySelector(".result-display");
 
 
 
-function assignNum(btn) {
+function assignNum(digit) {
     if (operator === undefined) {
         if (firstNum === undefined) {
-            firstNum = btn.textContent;
+            firstNum = digit;
         } else {
-            firstNum += btn.textContent;
+            firstNum += digit;
         }
         
         console.log("first number: " + firstNum);
-        calculatioDisplayEl.textContent += btn.textContent;
+        calculatioDisplayEl.textContent += digit;
     } else {
         if (secondNum === undefined) {
-            secondNum = btn.textContent;
+            secondNum = digit;
         } else {
-            secondNum += btn.textContent;
+            secondNum += digit;
         }
 
         console.log("second number: " + secondNum);
-        calculatioDisplayEl.textContent += btn.textContent;
+        calculatioDisplayEl.textContent += digit;
+    }
+}
+
+function assignOperator(newOperator) {
+    if (operator && !secondNum) {
+        operator = newOperator;
+        calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -1);
+        calculatioDisplayEl.textContent += operator;
+        console.log("operator: " + operator);
+    } else if (operator) {
+        result = calculate();
+        firstNum = result;
+        secondNum = undefined;
+        operator = newOperator;
+        calculatioDisplayEl.textContent = result + operator;
+        resultDisplayEl.textContent = "=" + result;
+    } else {
+        operator = newOperator;
+        calculatioDisplayEl.textContent += operator;
+        console.log("operator: " + operator);
+    }
+}
+
+function assignDecimalPoint(decimalPoint) {
+    if (!firstNum || (firstNum && operator && !secondNum)) {
+        assignNum("0.");
+    } else if ((!secondNum && firstNum.includes(".")) || (firstNum && operator && secondNum.includes("."))) {
+        alert("You can't put more than one decimal point per number!");
+    } else {
+        assignNum(decimalPoint);
     }
 }
 
@@ -55,80 +88,45 @@ function divide(num1, num2) {
 }
 
 function calculate() {
-    switch (operator) {
-        case "+":
-            return add(firstNum, secondNum);
-            break;
-        case "-":
-            return substract(firstNum, secondNum);
-            break;  
-        case "*":
-            return multiply(firstNum, secondNum);
-            break;
-        case "/":
-            return divide(firstNum, secondNum);
-            break;
+    if (operator === "/" && (secondNum === "0" || secondNum === "0.")) {
+        alert("You can't divide by zero, dumbo");
+        calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -secondNum.length);
+        secondNum = undefined;
+        return firstNum;
+    } else {
+        switch (operator) {
+            case "+":
+                result = add(firstNum, secondNum);
+                break;
+            case "-":
+                result = substract(firstNum, secondNum);
+                break;
+            case "*":
+                result = multiply(firstNum, secondNum);
+                break;
+            case "/":
+                result = divide(firstNum, secondNum);
+                break;
+        }
+
+        return +result.toFixed(2);
     }
 }
 
+function displayResult() {
+    result = calculate();
 
-
-numBtnsEl.forEach((btn) => btn.addEventListener("click", function() {
-    assignNum(this);
-}))
-
-dotBtnEl.addEventListener("click", function() {
-    if ((!secondNum && firstNum.includes(".")) || (firstNum && operator && secondNum.includes("."))) {
-        alert("You can't put more than one decimal per number!");
+    if (secondNum === undefined) {
+        calculatioDisplayEl.textContent = firstNum + operator;
     } else {
-        assignNum(this);
+        calculatioDisplayEl.textContent = firstNum + operator + secondNum;
     }
-})
 
-operatorBtnsEl.forEach((element) => element.addEventListener("click", function() {
-    if (operator && !secondNum) {
-        operator = this.textContent;
-        calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -1);
-        calculatioDisplayEl.textContent += operator;
-        console.log("operator: " + operator);
-    } else if (operator) {
-        result = calculate();
-        firstNum = result;
-        secondNum = undefined;
-        operator = this.textContent;
-        calculatioDisplayEl.textContent = result + operator;
-    } else {
-        operator = this.textContent;
-        calculatioDisplayEl.textContent += operator;
-        console.log("operator: " + operator);
-    }
-}))
+    resultDisplayEl.textContent = "=" + result;
+    console.log("result: ", result);
+}
 
-resultBtnEl.addEventListener("click", function() {
-    if (operator === "/" && secondNum === "0") {
-        alert("You can't divide by zero, dumbo");
-        num2 = undefined;
-        calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -1);
-    } else {
-        result = +calculate().toFixed(2);
-        calculatioDisplayEl.textContent = result;
-        resultDisplayEl.textContent = "=" + result;
-        console.log("result: ", result);
-    }
-})
-
-acBtnEl.addEventListener("click", function() {
-    firstNum = undefined;
-    secondNum = undefined;
-    operator = undefined;
-
-    calculatioDisplayEl.textContent = "";
-    resultDisplayEl.textContent = "";
-})
-
-cBtnEl.addEventListener("click", function() {
-    calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -1);
-
+function cancelLastDigit() {
     if (operator && !secondNum) {
         operator = undefined;
     } else if (secondNum) {
@@ -136,5 +134,68 @@ cBtnEl.addEventListener("click", function() {
         console.log(secondNum)
     } else if (firstNum && !operator && !secondNum) {
         firstNum = firstNum.slice(0, firstNum.length -1);
+    }
+
+    calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -1);
+}
+
+function clearAll() {
+    firstNum = undefined;
+    secondNum = undefined;
+    operator = undefined;
+
+    calculatioDisplayEl.textContent = "";
+    resultDisplayEl.textContent = "";
+}
+
+
+
+numBtnsEl.forEach((btn) => btn.addEventListener("click", function() {
+    assignNum(this.textContent);
+}))
+
+dotBtnEl.addEventListener("click", function() {
+    assignDecimalPoint(this.textContent);
+})
+
+operatorBtnsEl.forEach((element) => element.addEventListener("click", function() {
+    assignOperator(this.textContent);
+}))
+
+resultBtnEl.addEventListener("click", function() {
+    displayResult();
+})
+
+acBtnEl.addEventListener("click", function() {
+    clearAll();
+})
+
+cBtnEl.addEventListener("click", function() {
+    cancelLastDigit();
+})
+
+document.addEventListener("keydown", function(event) {
+    if (numbersArr.includes(+event.key)) {
+        assignNum(event.key);
+    }
+
+    if (operatorsArr.includes(event.key)) {
+        assignOperator(event.key);
+    }
+    
+    if (event.key === ".") {
+        assignDecimalPoint(event.key);
+    }
+
+    if (event.key === "Backspace") {
+        cancelLastDigit();
+    }
+
+    if (event.key === "Enter" || event.key === "=") {
+        displayResult();
+    }
+
+    if (event.key === "Escape") {
+        clearAll();
     }
 })
