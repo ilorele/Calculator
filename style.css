@@ -18,7 +18,7 @@
     padding: var(--calculator-padding);
     height: 520px;
     border-radius: 30px;
-    background-color: lightgray;
+    background-color: #FFB4A2;
     margin: 100px auto;
     align-items: center;
     justify-content: space-between;
@@ -32,8 +32,8 @@
     width: var(---display-width);
     height: 110px;
     padding: 15px;
-    border-radius: 10px;
-    background-color: hsl(0, 1%, 47%);
+    border-radius: 15px;
+    background-color:#6D6875;
 }
 
 .calculation-display {
@@ -94,14 +94,34 @@ button {
     border: none;
     border-radius: 15px;
     font-size: 30px;
-    background-color: hsl(0, 1%, 47%);
 }
 
-button:hover {
-    background-color: hsl(0, 1%, 60%);
+.num-btn,
+.dot-btn {
+    background-color: #E5989B;
 }
 
-button:active {
-    background-color: hsl(0, 1%, 47%);
+.num-btn:hover,
+.dot-btn:hover {
+    background-color: hsl(358, 60%, 67%);
+}
 
+.num-btn:active,
+.dot-btn:active {
+    background-color: #E5989B;
+}
+
+.operator-btn,
+.function-btn {
+    background-color: #B5838D;
+}
+
+.operator-btn:hover,
+.function-btn:hover {
+    background-color: hsl(348, 25%, 51%);
+}
+
+.operator-btn:active,
+.function-btn:active {
+    background-color: #B5838D;
 }
