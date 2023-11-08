@@ -101,7 +101,7 @@ function calculate() {
             case "-":
                 result = substract(firstNum, secondNum);
                 break;
-            case "*":
+            case "×":
                 result = multiply(firstNum, secondNum);
                 break;
             case "/":
