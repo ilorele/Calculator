@@ -5,23 +5,25 @@
 }
 
 :root {
-    --single-button-width: 60px;
-    --buttons-gap: 10px;
-    ---display-width: calc(4 * var(--single-button-width) + 3 * var(--buttons-gap));
-    --calculator-padding: 20px;
+    --btn-grid-gap: 10px;
+    --btn-grid-track-size: 25px;
+    --btns-container-width: calc(var(--btn-grid-track-size) * 8 + var(--btn-grid-gap) * 7);
+    --btns-container-height: calc(var(--btn-grid-track-size) * 10 + var(--btn-grid-gap) * 9);
+
 }
 
 .content-container {
+    box-sizing: content-box;
     display: flex;
     flex-direction: column;
-    width: calc(var(---display-width) + 2 * var(--calculator-padding));
-    padding: var(--calculator-padding);
-    height: 520px;
+    justify-content: space-between;
+    height: 500px;
     border-radius: 30px;
     background-color: #FFB4A2;
     margin: 100px auto;
-    align-items: center;
-    justify-content: space-between;
+    padding: 15px;
+    width: var(--btns-container-width);
+    
 }
 
 .display-container {
@@ -29,7 +31,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: end;
-    width: var(---display-width);
+    width: var(--btns-container-width);
     height: 110px;
     padding: 15px;
     border-radius: 15px;
@@ -53,47 +55,29 @@
     text-overflow: ellipsis;
 }
 
-.btns-container,
-.left-btns-container,
-.letf-top-btns-container,
-.letf-bottom-btns-container,
-.right-btns-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--buttons-gap);
-}
-
 .btns-container {
-    width: var(---display-width);
-    height: calc(5 * var(--single-button-width) + 4 * var(--buttons-gap));
-
-
+    display: grid;
+    gap: var(--btn-grid-gap);
+    grid-template: repeat(10, var(--btn-grid-track-size)) / repeat(8, var(--btn-grid-track-size));
 }
-
-.left-btns-container {
-    width: calc(3 * var(--single-button-width) + 2 * var(--buttons-gap));
-}
-
-.right-btns-container {
-    flex-direction: column;
-}
-
-.add,
-.result {
-    height: calc(1.5 * var(--single-button-width) + 0.5 * var(--buttons-gap));
-}
-
-.zero {
-    width: calc(2 * var(--single-button-width) + var(--buttons-gap));
-}
-
 
 button {
-    width: var(--single-button-width);
-    height: var(--single-button-width);
     border: none;
     border-radius: 15px;
     font-size: 30px;
+    grid-area: span 2 / span 2;
+}
+
+.zero {
+    grid-column: 1 / span 4;
+}
+
+.add {
+    grid-area: 5 / 7 / span 3 / span 2;
+}
+
+.result-btn {
+    grid-area: 8 / 7 / span 3 / span 2;
 }
 
 .num-btn,
