@@ -89,7 +89,7 @@ function divide(num1, num2) {
 
 function calculate() {
     if (operator === "/" && (secondNum === "0" || secondNum === "0.")) {
-        alert("You can't divide by zero, dumbo");
+        alert("You can't divide by zero!");
         calculatioDisplayEl.textContent = calculatioDisplayEl.textContent.slice(0, calculatioDisplayEl.textContent.length -secondNum.length);
         secondNum = undefined;
         return firstNum;
